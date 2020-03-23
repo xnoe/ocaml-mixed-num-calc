@@ -23,7 +23,14 @@ and (|-) f1 f2 =
       {i=0;num=f1.num-f2.num;den=f1.den}
     )
     | _ -> raise (Failure "Cannot process mixed fractions");
-;;
+and (|*) f1 f2 =
+  match (f1.i + f2.i) with 
+    0 -> (
+      if f1.den <> f2.den then raise (Failure "Fractions must have same denominator");
+      {i=0;num=f1.num*f2.num;den=f1.den}
+    )
+    | _ -> raise (Failure "Cannot process mixed fractions");
+  ;;
 
 let fracsimp f = 
   let rec gcd g l = let m = g mod l in match m with 0 -> l |_ -> gcd l m in
