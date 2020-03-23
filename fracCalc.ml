@@ -7,8 +7,6 @@ type frac = { i : int;
                    den : int; };;
 
 let mf2nf m = {i=0;num=m.num+(m.den*m.i);den=m.den};;
-(*This will end up returning A converted.*)
-(*Only takes normal fraction*)
 let sameDen a b =
   let ta,tb = !a,!b in 
   a := {i=0;num=ta.num*tb.den;den=ta.den*tb.den};
@@ -51,7 +49,7 @@ let (|/) f1 f2 =
 ;;
 let (|^) f1 f2 =
   let result = ref f1 in
-  for i = 0 to f2.num do
+  for i = 1 to f2.num -1 do
     result := !result |* f1
   done;
   !result
@@ -175,13 +173,20 @@ let parse tokens =
     if test Num then result := match eatr Num with Number n -> OpNum n |_->Blank
     else (eat LPa; result := front (); eat RPa; ());
     !result
-  and inter () =
+  and pow () =
     let result = ref (base ()) in
+    while test Pow do
+      eat Pow;
+      result := OpPow(!result,base ());
+    done;
+    !result
+  and inter () =
+    let result = ref (pow ()) in
     while test Mul || test Div do
       let t = typeOf (cur ()) in
       eat t;
-      if t = Mul then result := OpMul(!result,base ())
-      else result := OpDiv(!result,base ())
+      if t = Mul then result := OpMul(!result,pow ())
+      else result := OpDiv(!result,pow ())
     done;
     !result
   and front () =
@@ -213,6 +218,7 @@ let rec evaltree t =
       !ta |- !tb;
     )
     | OpMul (a,b) -> (eval a) |* (eval b)
+    | OpPow (a,b) -> (eval a) |^ (eval b)
     | OpDiv (a,b) -> (eval a) |/ (eval b)
     | Blank -> raise (Failure "If you are seeing this something has gone seriously wrong")
   in
