@@ -1,3 +1,5 @@
+#use "topfind"
+#require "Str"
 open Str;;
 
 type frac = { i : int; 
@@ -205,19 +207,21 @@ let rec evaltree t =
 ;;
 
 let () =
-  print_endline "Please enter the program you wish to run (`end` to end)";
+  print_endline "Please enter the program you wish to run (`exit` to exit)";
   print_string "> ";
   let program = ref (read_line ()) in
-  while !program <> "end" do
+  while !program <> "exit" do
     (try 
       let romeo = evaltree (parse (tokenise !program)) in
 
       print_string "Answer: ";
       print_int romeo.i;
-      print_string ".";
-      print_int romeo.num;
-      print_string "/";
-      print_int romeo.den;
+      if romeo.num <> 0 then (
+        print_string ".";
+        print_int romeo.num;
+        print_string "/";
+        print_int romeo.den;
+      );
       print_endline ""
     with 
       Failure f -> print_endline ("Failure: " ^ f)
