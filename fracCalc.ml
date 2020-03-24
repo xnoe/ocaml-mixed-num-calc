@@ -11,13 +11,6 @@ let sameDen a b =
   b := {i=0;num=tb.num*ta.den;den=tb.den*ta.den}
 ;;
 
-let sameDen3 a b c =
-  let ta,tb,tc = !a,!b,!c in 
-  a := {i=0;num=ta.num*tb.den*tc.den;den=ta.den*tb.den*tc.den};
-  b := {i=0;num=tb.num*ta.den*tc.den;den=tb.den*ta.den*tc.den};
-  c := {i=0;num=tc.num*ta.den*tb.den;den=tc.den*ta.den*tb.den};
-;;
-
 let (|+) f1 f2 =
   match (f1.i + f2.i) with 
     0 -> (
@@ -139,18 +132,6 @@ let parse tokens =
       | RParen -> RPa
       | EOF -> EOF
   in
-
-  (*let stringType t =
-    match t with
-      | Num -> "Num"
-      | Add -> "Add"
-      | Sub -> "Sub"
-      | Mul -> "Mul"
-      | Div -> "Div"
-      | LPa -> "LPa"
-      | RPa -> "RPa"
-      | EOF -> "EOF"
-  in*)
 
   let eatr t = 
     if typeOf (cur ()) = t then (incr index; pre ())
