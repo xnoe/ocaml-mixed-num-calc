@@ -1,5 +1,3 @@
-#use "topfind"
-#require "Str"
 open Str;;
 
 type frac = { i : int; 
