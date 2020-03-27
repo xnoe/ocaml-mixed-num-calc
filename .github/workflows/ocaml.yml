@@ -24,4 +24,3 @@ jobs:
     - uses: avsm/setup-ocaml@v1.0
     - run: |
         ocamlfind ocamlopt -package str -linkpkg -o fracCalc fracCalc.ml
-        ./fracCalc
