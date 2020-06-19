@@ -1,8 +1,11 @@
+#use "topfind";;
+#require "str";; 
 open Str;;
 
-type frac = { i : int; 
-                   num : int; 
-                   den : int; };;
+type frac = { i   : int; 
+              num : int; 
+              den : int; 
+            };;
 
 let mf2nf m = {i=0;num=m.num+(m.den*m.i);den=m.den};;
 let sameDen a b =
@@ -210,15 +213,15 @@ let () =
   let program = ref (read_line ()) in
   while !program <> "exit" do
     (try 
-      let romeo = evaltree (parse (tokenise !program)) in
+      let result = evaltree (parse (tokenise !program)) in
 
       print_string "Answer: ";
-      print_int romeo.i;
-      if romeo.num <> 0 then (
+      print_int result.i;
+      if result.num <> 0 then (
         print_string ".";
-        print_int romeo.num;
+        print_int result.num;
         print_string "/";
-        print_int romeo.den;
+        print_int result.den;
       );
       print_endline ""
     with 
@@ -226,7 +229,7 @@ let () =
       | Not_found -> print_endline "Elsie you should have fixed this";  
     );
     
-    print_endline "Please enter the program you wish to run (`end` to end)";
+    print_endline "Please enter the program you wish to run (`exit` to exit)";
     print_string "> ";
     program := read_line ()
   done
