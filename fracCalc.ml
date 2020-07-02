@@ -226,7 +226,7 @@ let () =
       print_endline ""
     with 
       Failure f -> print_endline ("Failure: " ^ f)
-      | Not_found -> print_endline "Elsie you should have fixed this";  
+      | Not_found -> print_endline "Xnoe you should have fixed this";  
     );
     
     print_endline "Please enter the program you wish to run (`exit` to exit)";
