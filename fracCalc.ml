@@ -152,8 +152,10 @@ let parse tokens =
 
   let rec base () = 
     let result = ref Blank in
-    if test Num then result := match eatr Num with Number n -> OpNum n |_->Blank
-    else (eat LPa; result := front (); eat RPa; ());
+    if test Num then 
+    	result := let (Number n) = eatr Num in OpNum n;
+    else 
+    	(eat LPa; result := front (); eat RPa; ());
     !result
   and pow () =
     let result = ref (base ()) in
